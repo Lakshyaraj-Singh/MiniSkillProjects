@@ -12,22 +12,22 @@
     },
     {
      id:"jbhbjhbg2",
-     title:"stretching",
+     title:"stretching exercise",
      column:"todo"
     },
     {
      id:"jbhbjhbg3",
-     title:"GYM",
+     title:"1 hour GYM",
      column:"inProgress"
     },
     {
      id:"jbhbjhbg4",
-     title:"Fruits",
+     title:" eat plenty Fruits",
      column:"inProgress"
     },
     {
      id:"jbhbjhbg5",
-     title:"Coffee",
+     title:"To make a coffee",
      column:"done"
     }
 ]
