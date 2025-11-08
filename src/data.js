@@ -1,5 +1,5 @@
 
-const cards=[
+ export const data=[
     {
      id:"jbhbjhbg",
      title:"Applying React",
@@ -28,7 +28,7 @@ const cards=[
     {
      id:"jbhbjhbg5",
      title:"Coffee",
-     column:"Done"
+     column:"done"
     }
 ]
     
