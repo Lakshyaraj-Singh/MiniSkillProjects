@@ -61,10 +61,15 @@ const Columns=({title,headingColor,cards})=>{
 
             )}
        </div>
-        <button onClick={()=>{setAddActive(true)}} className="btn border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>
-       {addActive&&<div className="flex mt-1 justify-end ">
-         <textarea className="w-full bg-violet-300/40 focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-lg border-1 border-violet-300" name="" id=""></textarea>
-       </div>}
+        {!addActive&&<button onClick={()=>{setAddActive(true)}} className="btn transition-all ease-in-out border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>}
+       {addActive&&<div className="mt-2 ">
+         <textarea className="w-full bg-violet-300/30   focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-md border-1 border-violet-300" name="" id=""></textarea>
+         <div className="flex gap-3 justify-end">
+          <button className=" cursor-pointer bg-neutral-100/90 rounded-md   text-neutral-800 px-1.5 py-1">Add task</button>
+          <button onClick={()=>setAddActive(false)} className="  cursor-pointer text-neutral-50 border-1 border-neutral-100/50 px-1.5 py-1 rounded-md">Close</button>
+         </div>
+       </div>
+       }
 
     </div>
     </>
