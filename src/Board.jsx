@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 import { data } from "./data";
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 export const Board = () => {
+   const [tasks,setTasks]=useState(data)
   return (
-    <div className="flex justify-between item-center h-full w-full">
-        <div className="w-full mt-10  flex  gap-3 justify-center ">
-          <Columns title="todo" headingColor={"text-yellow-300"} cards={data}/>
-          <Columns title="inProgress" headingColor={"text-blue-300"} cards={data}/>
-          <Columns title="done" headingColor={"text-orange-500"} cards={data}/>
-
+    <div className="flex justify-between item-center h-screen w-full">
+        <div className="w-full mt-10 h-full flex  gap-3 justify-center ">
+          <Columns title="todo" headingColor={"text-yellow-300"} cards={tasks}/>
+          <Columns title="inProgress" headingColor={"text-blue-300"} cards={tasks}/>
+          <Columns title="done" headingColor={"text-orange-500"} cards={tasks}/>
+          <DeleteFire setTasks={setTasks}/>
         </div>
     </div>
   )
@@ -16,6 +18,7 @@ export const Board = () => {
 const Columns=({title,headingColor,cards})=>{
    
   const [active,setActive]=useState(false);
+  const [addActive,setAddActive]=useState(false);
   const [filterCards,setFilterCards]=useState(null);
   useEffect(() => {
     const loadCards=() =>{
@@ -24,19 +27,44 @@ const Columns=({title,headingColor,cards})=>{
    }
   loadCards()
     
-  }, [])
+  }, [cards,title])
+  const handleDragStart=(e,card)=>{
+   
+    
+    e.dataTransfer.setData("cardId",card.id)
+    setActive(false)
+    
+    }
+    const handleDragLeave = () => {
+      setActive(false);
+    }
+    const handleDragOver=(e)=>{
+      e.preventDefault();
+      setActive(true)
+      
+    }
+    const handleDragend=(e)=>{
+      const cardId = e.dataTransfer.getData("cardId");
+      setActive(false)
+    }
+
+  
   
  
   return (
     <>
-    <div  className="w-96 rounded p-1   bg-neutral-700/20">
+    <div  onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDragend} className={`w-96 rounded  p-1 ${active?"bg-neutral-100":"bg-neutral-700/0"}  `}>
        <div className="flex gap-3 items-center text-xl"><h1 className={`${headingColor} font-bold text-center capitalize `}>{title}</h1> <span className="bg-neutral-200/70 rounded-xl h-5 text-sm px-4 font-semibold">{filterCards?.length}</span></div>
        <div className="flex flex-col gap-1.5 mt-5  ">
              {filterCards?.map((c)=>
-             <Cards key={c.id} {...c}/>
+             <Cards handleDragStart={handleDragStart} key={c.id} {...c}/>
 
             )}
        </div>
+        <button onClick={()=>{setAddActive(true)}} className="btn border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>
+       {addActive&&<div className="flex mt-1 justify-end ">
+         <textarea className="w-full bg-violet-300/40 focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-lg border-1 border-violet-300" name="" id=""></textarea>
+       </div>}
 
     </div>
     </>
@@ -44,23 +72,44 @@ const Columns=({title,headingColor,cards})=>{
 
 }
 
-const Cards=({title,id,column})=>{
+const Cards=({title,id,column,handleDragStart})=>{
   const [active,setActive]=useState(false);
-  const handleDragStart=(e)=>{
-   
-    
-    e.dataTransfer.setData("cardId",id)
-    
-    setActive(true)
-    }
+  
    
 
   
   return(<>
   
-  <div draggable="true" onDrag={(e)=>e.preventDefault()} onDragEnd={()=>{setActive(false)}} onDragStart={handleDragStart}  className={`w-full cursor-grab !opacity-100 ${active?"bg-red-500":"bg-neutral-700"}   active:cursor-grabbing p-2 rounded-md border-neutral-100/20 border-2 `}>
+  <div draggable="true" onDragStart={(e)=>handleDragStart(e,{title,id,column})}  className={`w-full cursor-grab !opacity-100 ${active?"bg-red-500":"bg-neutral-700"}   active:cursor-grabbing p-2 rounded-md border-neutral-100/20 border-2 `}>
       <h1 className="text-gray-100">{title}</h1>
 
   </div>
   </>)
   }
+
+const DeleteFire=({setTasks})=>{
+
+  const [active,setActive]=useState(false);
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setActive(true); 
+  }
+  const handleDragOver = (e) => {
+    e.preventDefault(); 
+  }
+  const handleDragLeave = (e) => {
+    setActive(false); 
+  }
+  const handleDrop = (e) => {
+    setActive(false); 
+    const cardId = e.dataTransfer.getData("cardId");
+   setTasks((pv)=>pv.filter(c=>c.id!==cardId))
+  }
+  
+  return<>
+   <div onDragOver={handleDragOver} onDrop={handleDrop} onDragLeave={handleDragLeave} onDragEnter={handleDragEnter} className={`h-96 w-96 rounded-lg flex justify-center border-2 items-center ${active?"border-red-500/70 text-red-500 bg-red-500/10  ":"border-red-500/0  text-red-500/60 bg-neutral-700/30 "}`}>
+   <LocalFireDepartmentIcon  style={{ width: 50, height: 50 }}  />
+   </div>
+   
+   </>
+}
