@@ -6,16 +6,16 @@ export const Board = () => {
   return (
     <div className="flex justify-between item-center h-screen w-full">
         <div className="w-full mt-10 h-full flex  gap-3 justify-center ">
-          <Columns title="todo" headingColor={"text-yellow-300"} cards={tasks}/>
-          <Columns title="inProgress" headingColor={"text-blue-300"} cards={tasks}/>
-          <Columns title="done" headingColor={"text-orange-500"} cards={tasks}/>
+          <Columns title="todo" headingColor={"text-yellow-300"} setTasks={setTasks} cards={tasks}/>
+          <Columns title="inProgress" headingColor={"text-blue-300"}setTasks={setTasks} cards={tasks}/>
+          <Columns title="done" headingColor={"text-orange-500"} setTasks={setTasks} cards={tasks}/>
           <DeleteFire setTasks={setTasks}/>
         </div>
     </div>
   )
 }
 
-const Columns=({title,headingColor,cards})=>{
+const Columns=({title,headingColor,cards,setTasks})=>{
    
   const [active,setActive]=useState(false);
   const [addActive,setAddActive]=useState(false);
@@ -45,7 +45,9 @@ const Columns=({title,headingColor,cards})=>{
     }
     const handleDragend=(e)=>{
       const cardId = e.dataTransfer.getData("cardId");
-      setActive(false)
+      setActive(false);
+      setTasks((pv)=>pv.map(task=>task.id === cardId ? { ...task, column: title } : task)) 
+      
     }
 
   
