@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { data } from "./data";
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import { motion } from "motion/react"
 export const Board = () => {
    const [tasks,setTasks]=useState(data)
   return (
@@ -55,7 +56,7 @@ const Columns=({title,headingColor,cards,setTasks})=>{
  
   return (
     <>
-    <div  onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDragend} className={`w-96 rounded  p-1 ${active?"bg-neutral-100":"bg-neutral-700/0"}  `}>
+    <motion.div layout  onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDragend} className={`w-96 rounded  p-1 ${active?"bg-neutral-100":"bg-neutral-700/0"}  `}>
        <div className="flex gap-3 items-center text-xl"><h1 className={`${headingColor} font-bold text-center capitalize `}>{title}</h1> <span className="bg-neutral-200/70 rounded-xl h-5 text-sm px-4 font-semibold">{filterCards?.length}</span></div>
        <div className="flex flex-col gap-1.5 mt-5  ">
              {filterCards?.map((c)=>
@@ -73,7 +74,7 @@ const Columns=({title,headingColor,cards,setTasks})=>{
        </div>
        }
 
-    </div>
+    </motion.div>
     </>
   )
 
