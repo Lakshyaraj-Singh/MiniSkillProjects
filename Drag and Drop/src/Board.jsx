@@ -3,7 +3,14 @@ import { data } from "./data";
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import { motion } from "motion/react"
 export const Board = () => {
-   const [tasks,setTasks]=useState(data)
+  
+   const [tasks,setTasks]=useState(()=> {
+    const saved = localStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : data;
+  })
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
   return (
     <div className="flex justify-between item-center h-screen w-full">
         <div className="w-full mt-10 h-full flex  gap-3 justify-center ">
@@ -64,19 +71,10 @@ const Columns=({title,headingColor,cards,setTasks})=>{
 
             )}
        </div>
-       <motion.form layout 
-       >
-        
-        {!addActive&&<button layout onClick={()=>{setAddActive(true)}} className="btn transition-all ease-in-out border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>}
-       {addActive&&<div className="mt-2 ">
-         <textarea className="w-full bg-violet-300/30   focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-md border-1 border-violet-300" name="" id=""></textarea>
-         <div className="flex gap-3 justify-end">
-          <button className=" cursor-pointer bg-neutral-100/90 rounded-md   text-neutral-800 px-1.5 py-1">Add task</button>
-          <button onClick={()=>setAddActive(false)} className="  cursor-pointer text-neutral-50 border-1 border-neutral-100/50 px-1.5 py-1 rounded-md">Close</button>
-         </div>
-       </div>
-       }
-       </motion.form>
+      
+       <AddTask column={title} setTasks={setTasks} addActive={addActive} setAddActive={setAddActive}/>
+       
+      
 
     </motion.div>
     </>
@@ -124,4 +122,31 @@ const DeleteFire=({setTasks})=>{
    </div>
    
    </>
+}
+
+
+const AddTask=({setTasks,addActive,setAddActive,column})=>{
+  const [task,setTask]=useState({title:""});
+  const handleChange=(e)=>{
+    setTask({...task,[e.target.name]:e.target.value})
+  }
+  const handleOnSubmit=(e)=>{
+   e.preventDefault();
+   setTasks((pv)=>[...pv,{id:Math.random().toString(36).substring(2, 11),title:task.title,column:column}])
+   setTask({ title: "" }); 
+   setAddActive(false); 
+  }
+  return<>
+  <motion.form layout  onSubmit={handleOnSubmit}
+       >
+  {!addActive?<button onClick={()=>{setAddActive(true)}} className="btn transition-all ease-in-out border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>
+       :<div className="mt-2 ">
+         <textarea name="title" onChange={handleChange} value={task.title} className="w-full bg-violet-300/30   focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-md border-1 border-violet-300"  id=""></textarea>
+         <div className="flex gap-3 justify-end">
+          <button type="submit" className=" cursor-pointer bg-neutral-100/90 rounded-md   text-neutral-800 px-1.5 py-1">Add task</button>
+          <button onClick={()=>setAddActive(false)} className="  cursor-pointer text-neutral-50 border-1 border-neutral-100/50 px-1.5 py-1 rounded-md">Close</button>
+         </div>
+       </div>}
+       </motion.form>
+  </>
 }
