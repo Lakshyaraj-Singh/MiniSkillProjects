@@ -64,7 +64,10 @@ const Columns=({title,headingColor,cards,setTasks})=>{
 
             )}
        </div>
-        {!addActive&&<button onClick={()=>{setAddActive(true)}} className="btn transition-all ease-in-out border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>}
+       <motion.form layout 
+       >
+        
+        {!addActive&&<button layout onClick={()=>{setAddActive(true)}} className="btn transition-all ease-in-out border-1 mt-2 cursor-pointer rounded-md border-neutral-100/70 text-neutral-100/60 hover:bg-neutral-100/90   hover:text-neutral-800 p-1.5 ">Add tasks</button>}
        {addActive&&<div className="mt-2 ">
          <textarea className="w-full bg-violet-300/30   focus:outline-0 text-neutral-50 placeholder-violet-300  rounded-md border-1 border-violet-300" name="" id=""></textarea>
          <div className="flex gap-3 justify-end">
@@ -73,6 +76,7 @@ const Columns=({title,headingColor,cards,setTasks})=>{
          </div>
        </div>
        }
+       </motion.form>
 
     </motion.div>
     </>
@@ -88,10 +92,10 @@ const Cards=({title,id,column,handleDragStart})=>{
   
   return(<>
   
-  <div draggable="true" onDragStart={(e)=>handleDragStart(e,{title,id,column})}  className={`w-full cursor-grab !opacity-100 ${active?"bg-red-500":"bg-neutral-700"}   active:cursor-grabbing p-2 rounded-md border-neutral-100/20 border-2 `}>
+  <motion.div layout layoutId={id} draggable="true" onDragStart={(e)=>handleDragStart(e,{title,id,column})}  className={`w-full cursor-grab !opacity-100 ${active?"bg-red-500":"bg-neutral-700"}   active:cursor-grabbing p-2 rounded-md border-neutral-100/20 border-2 `}>
       <h1 className="text-gray-100">{title}</h1>
 
-  </div>
+  </motion.div>
   </>)
   }
 
@@ -115,8 +119,8 @@ const DeleteFire=({setTasks})=>{
   }
   
   return<>
-   <div onDragOver={handleDragOver} onDrop={handleDrop} onDragLeave={handleDragLeave} onDragEnter={handleDragEnter} className={`h-96 w-96 rounded-lg flex justify-center border-2 items-center ${active?"border-red-500/70 text-red-500 bg-red-500/10  ":"border-red-500/0  text-red-500/60 bg-neutral-700/30 "}`}>
-   <LocalFireDepartmentIcon  style={{ width: 50, height: 50 }}  />
+   <div onDragOver={handleDragOver} onDrop={handleDrop} onDragLeave={handleDragLeave} onDragEnter={handleDragEnter} className={`h-96 w-96  rounded-lg flex justify-center border-2 items-center ${active?"[&>.child]:animate-bounce border-red-500/70 text-red-500 bg-red-500/10  ":"border-red-500/0  text-red-500/60 bg-neutral-700/30 "}`}>
+   <LocalFireDepartmentIcon  className="child" style={{ width: 50, height: 50 }}  />
    </div>
    
    </>
