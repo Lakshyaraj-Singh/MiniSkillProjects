@@ -4,7 +4,7 @@ import { addItems } from "./Store/cartSlice";
 export const CartCard = ({id,title,description ,price}) => {
     const dipatch=useDispatch();
   return <>
-  <div className="card bg-base-100 w-96 shadow-sm">
+  <div  className="card bg-base-100 w-60 shadow-sm">
   <figure>
     <img
       src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
@@ -15,7 +15,7 @@ export const CartCard = ({id,title,description ,price}) => {
     <p>{description}</p>
     <p>{price}</p>
     <div className="card-actions justify-end">
-      <button  className="btn btn-primary">Finish Buying</button>
+      <button  className="btn bg-orange-500">Finish Buying</button>
     </div>
   </div>
 </div>
