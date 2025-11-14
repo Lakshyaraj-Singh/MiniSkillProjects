@@ -1,0 +1,22 @@
+[
+    {"id":1,
+    "title":"Books",
+    "description":"Have some" ,
+     "price":120},
+    {"id":2,
+    "title":"Sunglasses",
+    "description":"Have some" ,
+     "price":130},
+    {"id":3,
+    "title":"Music",
+    "description":"Have some" ,
+     "price":180},
+    {"id":4,
+    "title":"Movies",
+    "description":"Have some" ,
+     "price":180},
+    {"id":5,
+    "title":"Audio",
+    "description":"Have some" ,
+     "price":120}
+]
