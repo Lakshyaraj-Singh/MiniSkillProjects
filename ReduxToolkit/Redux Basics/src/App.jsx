@@ -5,13 +5,14 @@ import { Cart } from "./Cart";
 import { CartCard } from "./CartCard";
 function App() {
    const items=useSelector((state)=>state.cart);
-  console.log(items)
    
+   const totalPrice=items.reduce((sum,p)=>sum+p.price,0)
+   console.log(totalPrice)
 
   return (
     <>
     <div>
-      <h1 className="text-orange-400 text-center font-semibold text-xl">Cart {items.length}</h1>
+      <h1 className="text-orange-400 text-center font-semibold text-xl">Cart {items.length} and Total Price:{totalPrice}</h1>
       <div className="flex gap-3  items-center">
         {items.length==0?<h1 className="font-bold text-2xl text-center">Cart Empty</h1>:
         items.map((c)=><CartCard key={c.id} {...c}/>)}
